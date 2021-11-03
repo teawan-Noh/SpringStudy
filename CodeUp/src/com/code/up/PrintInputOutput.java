@@ -57,7 +57,40 @@ public class PrintInputOutput {
 //		System.out.printf("%s",s.next());
 		
 		//연월일 출력 (code up 1019 문제)
-		System.out.printf("%d.%02d.%02d",s.nextInt(), s.nextInt(), s.nextInt());
+//		System.out.printf("%d.%02d.%02d",s.nextInt(), s.nextInt(), s.nextInt());
+		
+		//주민번호 입력받아 형태 바꾸어 출력
+//		String p1 = s.next();
+//		p1 = p1.replace("-", "");
+//		System.out.printf(p1);
+		
+		//공백이 포함된 문장 입력받아 출력 
+//		System.out.printf("%s", s.nextLine());
+		
+		//실수 1개 입력받아 부분별로 출력하기
+//		String b2 = s.next();
+//		int b22 = b2.indexOf(".");
+//		System.out.println(b2.substring(0,b22)+"\n"+b2.substring(b22+1,b2.length()));
+		
+		//단어 1개 입력받아 나누어 출력하기 
+//		String s1 = s.nextLine();
+//		for (int i = 0; i < s1.length(); i++) {
+//			System.out.printf("\'%c\'\n",s1.charAt(i));
+//		}
+		
+		//정수 1개입력받아 나누어 출력하기
+//		String s1 = s.nextLine();
+//		char [] arr = s1.toCharArray();
+//		for (int i = 0; i < arr.length; i++) {
+//			System.out.print("["+arr[i]);
+//			for (int j = arr.length-1; j > i; j--) {
+//				System.out.print("0");
+//			}
+//			System.out.println("]");
+//		}
+		
+		//시분초 입력받아 분만 출력하기
+		
 	}
 
 }
