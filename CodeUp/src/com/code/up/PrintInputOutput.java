@@ -90,7 +90,18 @@ public class PrintInputOutput {
 //		}
 		
 		//시분초 입력받아 분만 출력하기
+//		String time = "11:1:12";
+//		String [] result = time.split(":");
+//		if(result[1].length()==1) {
+//			result[1] = "0" + result[1];
+//		}
+//		System.out.println(result[1]);
 		
+		//년월일 입력 받아 형식 바꿔 출력하기
+		String birth = "2014.07.15";
+		birth = birth.replace(".", "-");
+		String [] result = birth.split("-");
+		System.out.printf("%s-%s-%s",result[2],result[1],result[0]);
 	}
 
 }
