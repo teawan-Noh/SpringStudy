@@ -98,10 +98,12 @@ public class PrintInputOutput {
 //		System.out.println(result[1]);
 		
 		//년월일 입력 받아 형식 바꿔 출력하기
-		String birth = "2014.07.15";
-		birth = birth.replace(".", "-");
-		String [] result = birth.split("-");
-		System.out.printf("%s-%s-%s",result[2],result[1],result[0]);
+//		String birth = "2014.07.15";
+//		birth = birth.replace(".", "-");
+//		String [] result = birth.split("-");
+//		System.out.printf("%s-%s-%s",result[2],result[1],result[0]);
+		
+		s.close();
 	}
 
 }
