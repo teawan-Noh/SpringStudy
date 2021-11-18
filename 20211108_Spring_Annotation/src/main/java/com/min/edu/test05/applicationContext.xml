@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- TODO.0001 annotation을 읽어서 bean으로 생성 -->
+	<context:component-scan base-package="com.min.edu"/>
+	
+	<!-- Class를 xml의 <bean>태그를 통해서 bean으로 생성 -->
+	<bean id="myUser01" class="com.min.edu.test05.UserDto">
+		<constructor-arg value="또치"/>
+		<property name="username" value="도우너"/>
+	</bean>
+	<bean id="myUser02" class="com.min.edu.test05.UserDto">
+		<constructor-arg value="마이콜"/>
+		<property name="username" value="희동이"/>
+	</bean>
+	
+	
+</beans>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="now" class="java.util.Date"></bean>
+	
+	<bean id="mydate" class="java.util.Date">
+		<constructor-arg value="2021"/>
+		<constructor-arg value="11"/>
+		<constructor-arg value="8"/>
+	</bean>
+	
+	<bean id="mydto" class="com.min.edu.test03.UserDto">
+		<constructor-arg value="또치"/>
+		<property name="per" value="a=1, b=2, c=3"/>
+		<property name="myDate" ref="mydate"/>
+	</bean>
+	
+	<bean id="myService" class="com.min.edu.test03.UserServiceImpl">
+	
+	</bean>
+
+</beans>
