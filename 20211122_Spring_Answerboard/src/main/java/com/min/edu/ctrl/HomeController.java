@@ -20,6 +20,6 @@ public class HomeController {
 	public String init(Model model, String name) {
 		logger.info("처음시작하는 Spring{}", new Date());
 		model.addAttribute("val", name +"님 반갑습니다");
-		return "/WEB-INF/views/init.jsp";
+		return "init";
 	}
 }

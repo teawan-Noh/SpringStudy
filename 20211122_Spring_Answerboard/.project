@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>20211118_Spring_Hello</name>
+	<name>20211122_Spring_Answerboard</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -44,5 +44,6 @@
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
+		<nature>org.jkiss.dbeaver.DBeaverNature</nature>
 	</natures>
 </projectDescription>
