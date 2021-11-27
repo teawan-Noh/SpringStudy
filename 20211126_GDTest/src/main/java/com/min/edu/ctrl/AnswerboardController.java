@@ -32,4 +32,14 @@ public class AnswerboardController {
 		
 	}
 	
+	@GetMapping("/boardDetail.do")
+	public String boardDetail(int seq, Model model) {
+		
+		AnswerboardVO vo = answerboardService.selectOneBoard(seq);
+		model.addAttribute("boardOne", vo);
+		System.out.println("확인22222222222222222222222222222222222222222222222" + vo);
+		
+		return "boardDetail";
+	}
+	
 }

@@ -3,7 +3,6 @@
  */
 
 window.onload = function() {
-	console.log('온로드');
 	const allChk = document.getElementById('allChk');
 	const chks = document.getElementsByName('chk');
 	for (let chk in chks) {

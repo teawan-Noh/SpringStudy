@@ -37,9 +37,9 @@
 	
 	<!-- 게시판의 글 상세조회 -->
 	<select id="selectOneBoard" parameterType="java.lang.Integer" resultType="answerboardVo">
-		SELECT SEQ, ID, LPAD(' ', "DEPTH"*10) || TITLE, 
+		SELECT SEQ, ID, TITLE, 
 				CONTENT, REFER, STEP, 
-				DEPTH, DELFLAG, REGDATE
+				DEPTH, DELFLAG, TO_CHAR(REGDATE, 'YYYY-MM-DD') AS REGDATE
 			FROM ANSWERBOARD a
 			WHERE SEQ = #{seq}
 	</select>
@@ -47,7 +47,7 @@
 	<select id="selectAllBoard" resultType="answerboardVo">
 		SELECT SEQ, ID, TITLE,
 				CONTENT, REFER, STEP,
-				DEPTH, DELFLAG, REGDATE
+				DEPTH, DELFLAG, TO_CHAR(REGDATE, 'YYYY-MM-DD') AS REGDATE
 			FROM ANSWERBOARD a
 			ORDER BY REFER DESC , STEP 
 	</select>
