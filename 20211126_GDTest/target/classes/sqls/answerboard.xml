@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.dao.AnswerboardDaoImpl">
+
+	<!-- 게시판의 ROOT작성 -->
+	<insert id="insertBoard" parameterType="answerboardVo">
+		INSERT INTO ANSWERBOARD (SEQ, ID, TITLE, 
+      			CONTENT, REFER, STEP, 
+      			DEPTH, DELFLAG, REGDATE)
+     		VALUES(ANSWERBOARD_SEQ.NEXTVAL, #{id}, #{title},
+            	#{content} , (SELECT NVL(MAX(SEQ),0)+1 FROM ANSWERBOARD a),0,
+            	0, 'N', SYSDATE)
+	</insert>
+	
+	<!-- 게시판의 글 수정 -->
+	<update id="updateBoard" parameterType="answerboardVo">
+		UPDATE ANSWERBOARD SET CONTENT  = #{content}
+			WHERE SEQ = #{seq}
+	</update>
+	
+	<!-- 게시판의 글 삭제(UPDATE) -->
+	<update id="deflagBoard" parameterType="java.util.Map">
+		UPDATE ANSWERBOARD SET DELFLAG = 'Y'
+			WHERE SEQ IN
+			<foreach collection="seqs" item="seq" open="(" separator="," close=")">
+				 #{seq}
+			</foreach>
+	</update>
+	<!-- 게시판의 글 삭제(DELETE) -->
+	<delete id="deleteBoard" parameterType="java.util.Map">
+		DELETE FROM ANSWERBOARD a 
+			WHERE SEQ IN
+			<foreach collection="seqs" item="seq" open="(" separator="," close=")">
+				 #{seq}
+			</foreach>
+	</delete>
+	
+	<!-- 게시판의 글 상세조회 -->
+	<select id="selectOneBoard" parameterType="java.lang.Integer" resultType="answerboardVo">
+		SELECT SEQ, ID, LPAD(' ', "DEPTH"*10) || TITLE, 
+				CONTENT, REFER, STEP, 
+				DEPTH, DELFLAG, REGDATE
+			FROM ANSWERBOARD a
+			WHERE SEQ = #{seq}
+	</select>
+	<!-- 게시판의 글 전체조회 -->
+	<select id="selectAllBoard" resultType="answerboardVo">
+		SELECT SEQ, ID, TITLE,
+				CONTENT, REFER, STEP,
+				DEPTH, DELFLAG, REGDATE
+			FROM ANSWERBOARD a
+			ORDER BY REFER DESC , STEP 
+	</select>
+	<!-- 답글 작성(UPDATE) -->
+	<update id="replyUp" parameterType="java.lang.Integer">
+		UPDATE ANSWERBOARD SET STEP =  STEP + 1 
+			WHERE STEP > (SELECT STEP FROM ANSWERBOARD a WHERE SEQ = #{seq})
+	</update>
+	
+	<!-- 답글 작성(INSERT) -->
+	<update id="replyIn" parameterType="answerboardVo">
+		INSERT INTO ANSWERBOARD (SEQ, ID, TITLE, 
+		    CONTENT, REFER, STEP, 
+		    DEPTH, DELFLAG, REGDATE)
+		    VALUES(ANSWERBOARD_SEQ.NEXTVAL, #{id}, #{title},
+		    #{content}, (SELECT REFER FROM ANSWERBOARD a WHERE SEQ=#{seq}), (SELECT STEP+1 FROM ANSWERBOARD a WHERE SEQ=#{seq}),
+		    (SELECT DEPTH+1 FROM ANSWERBOARD a WHERE SEQ=#{seq}),'N',SYSDATE)	
+	</update>
+
+
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.dao.AnswerboardDaoImpl">
+
+	<!-- 게시판 ROOT 글 작성 -->
+	<insert id="insertBoard" parameterType="AnswerBoardVo">
+		INSERT INTO ANSWERBOARD
+		(SEQ, ID, TITLE,
+		CONTENT, REFER, STEP,
+		DEPTH, DELFLAG, REGDATE)
+		VALUES(ANSWERBOARD_SEQ.NEXTVAL, #{id}, #{title},
+		#{content} , (SELECT NVL(MAX(SEQ),0)+1 FROM ANSWERBOARD a),0,
+		0, 'N', SYSDATE)
+	</insert>
+
+	<!-- 게시판 글 수정 -->
+	<update id="updateBoard" parameterType="AnswerBoardVo">
+		UPDATE ANSWERBOARD SET CONTENT = #{content}
+		WHERE SEQ = #{seq}
+	</update>
+
+	<!-- 게시판 글 삭제(update) -->
+	<delete id="delflagBoard" parameterType="java.util.Map">
+		UPDATE ANSWERBOARD SET DELFLAG ='Y'
+		WHERE SEQ IN
+		<foreach collection="seqs" item="seq" open="(" separator="," close=")">
+			#{seq}
+		</foreach>
+
+	</delete>
+	<!-- 게시판 글 삭제(delete) -->
+	<delete id="deleteBoard" parameterType="java.util.Map">
+		DELETE FROM ANSWERBOARD a
+		WHERE SEQ =
+		<foreach collection="seqs" item="seq" open="(" separator="," close=")">
+			#{seq}
+		</foreach>
+	</delete>
+
+	<!-- 게시판 글 조회(단일조회) -->
+	<select id="selectOneBoard" parameterType="java.lang.Integer" resultType="AnswerBoardVo">
+		SELECT SEQ, ID, TITLE,
+				CONTENT, REFER, STEP, 
+				DEPTH, DELFLAG, REGDATE
+			FROM ANSWERBOARD a
+			WHERE SEQ = #{seq}
+	</select>
+
+	<!-- 게시판 글 조회(전체조회) -->
+	<select id="selectAllBoard" resultType="AnswerBoardVo">
+		SELECT SEQ, ID, TITLE,
+				REFER, STEP, DEPTH, 
+				DELFLAG, REGDATE
+			FROM ANSWERBOARD a
+			ORDER BY REFER DESC, STEP 
+	</select>
+
+	<!-- 답글 작성(update) -->
+	<update id="replyUp" parameterType="AnswerBoardVo">
+		UPDATE ANSWERBOARD SET STEP = STEP + 1
+		WHERE STEP >
+		(SELECT STEP FROM ANSWERBOARD a WHERE SEQ=#{seq})
+	</update>
+
+	<!-- 답글 작성(insert) -->
+	<insert id="replyIn" parameterType="AnswerBoardVo">
+		INSERT INTO ANSWERBOARD (SEQ, ID, TITLE,
+		CONTENT, REFER, STEP,
+		DEPTH, DELFLAG, REGDATE)
+		VALUES(ANSWERBOARD_SEQ.NEXTVAL, #{id}, #{title},
+		#{content}, (SELECT REFER FROM ANSWERBOARD a WHERE SEQ=#{seq}), (SELECT STEP+1 FROM ANSWERBOARD a WHERE SEQ=#{seq}),
+		(SELECT DEPTH+1 FROM ANSWERBOARD a WHERE SEQ=#{seq}),'N',SYSDATE)
+	</insert>
+
+
+
+</mapper>
