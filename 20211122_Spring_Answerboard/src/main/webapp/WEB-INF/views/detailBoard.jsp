@@ -33,7 +33,7 @@
 					<td>${avo.title}</td>
 				</tr>
 				<tr>
-					<th>내욕</th>
+					<th>내용</th>
 					<td><textarea rows="10" cols="50">${avo.content}</textarea></td>
 				</tr>
 				<tr>
