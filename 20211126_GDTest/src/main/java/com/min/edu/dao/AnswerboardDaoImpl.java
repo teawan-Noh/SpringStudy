@@ -48,7 +48,7 @@ public class AnswerboardDaoImpl implements IAnswerboardDao {
 
 	@Override
 	public AnswerboardVO selectOneBoard(int seq) {
-		logger.info("전체 단일 글 조회");
+		logger.info("단일 글 조회");
 		return sqlSession.selectOne(NS+"selectOneBoard", seq);
 	}
 
