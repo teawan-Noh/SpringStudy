@@ -12,9 +12,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div id="changeTextArea">
-
-</div>
 	<div class="container">
 		<h2>새글입력</h2>
 		<form class="form-horizontal" action="./insertBoard.do" method="post">

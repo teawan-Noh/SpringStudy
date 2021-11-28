@@ -48,13 +48,11 @@
 			<input type="hidden" id="seq" name="seq">
 			<div style="text-align: center;">
 				<c:if test="${sessionScope.userid eq avo.id}">
-					<input class="btn-success" type="button" value="글삭제"
-						onclick="location.href='./deleteBoard.do?seq=${avo.seq}'">
+					<input class="btn-success" type="button" value="글삭제" onclick="location.href='./deleteBoard.do?seq=${avo.seq}'">
 					<input class="btn-info" type="button" value="글수정" onclick="location.href='./modifyBoardForm.do?seq=${avo.seq}'">
 				</c:if>
 				<%-- <input type="button" value="답글작성" onclick="location.href='./replyBoardForm.do?seq=${avo.seq}'"> --%>
-				<button type="button" class="btn btn-default" data-toggle="modal"
-					data-target="#reply">Open Modal</button>
+				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#reply">Open Modal</button>
 				<input type="button" value="전체글목록" onclick="history.back(-1)">
 			</div>
 		</form>

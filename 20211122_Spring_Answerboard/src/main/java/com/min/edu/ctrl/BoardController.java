@@ -40,7 +40,7 @@ public class BoardController {
 
 	@RequestMapping(value = "/boardList.do", method = RequestMethod.GET)
 	public String boardList(Model model, HttpSession session) {
-		session.setAttribute("userid", "USER25");
+		session.setAttribute("userid", "user23");
 		session.setAttribute("auth", "U");
 
 		session.setMaxInactiveInterval(120);
