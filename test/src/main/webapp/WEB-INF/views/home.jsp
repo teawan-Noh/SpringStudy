@@ -5,16 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>index</title>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script type="text/javascript"
-	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript">
 
 /* var IMP = window.IMP; // 생략 가능
 IMP.init("{가맹점 식별코드}"); // 예: imp00000000 */
 
-	function pay(){
+	function request_pay(){
 	//가맹점 식별코드
 	IMP.init('imp51549826');
 	IMP.request_pay({
@@ -69,7 +67,7 @@ IMP.init("{가맹점 식별코드}"); // 예: imp00000000 */
 </head>
 <body>
 	<h2>첫화면인데</h2>
-	<button onclick="pay();">결제</button>
+	<button onclick="request_pay()">결제</button>
 	<button onclick="cancelPay()">환불하기</button>
 </body>
 

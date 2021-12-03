@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.join1">
+
+<select id="jobCombine1" resultType="com.min.edu.dto.All_Dto">
+	SELECT p.PLAYER_NAME, t.TEAM_NAME, p.BACK_NO, p."POSITION",
+		t.REGION_NAME, t.ADDRESS, t.HOMEPAGE
+	FROM PLAYER p JOIN TEAM t 
+	ON p.TEAM_ID = t.TEAM_ID
+</select>
+
+
+</mapper>
