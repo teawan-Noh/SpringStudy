@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 
+	mapper의 namespace는 필수임  
+	같은 호출 id가 중복해서 있을경우 multiple 오류가 발생
+	구분자(namespace)를 통해서 같은 id지만 다른 것으로 판단하기 위해서 사용
+	
+	jUnit Test, Spring boot에서는 사용되는 @Repository 클레스를 선해야함
+-->
+<mapper namespace="com.min.edu.moel.DaoImpl">
+
+<!-- 
+	mapper의 tag는 기능과 속성에 의해서 구분하여 사용
+	insert 쿼리이기 때문에 <insert> tag를 사용하는 것은 아님
+	insert 쿼리의 하위 <selectkey>를 가지고 있기 때문에
+	<select>를 사용하는 이유는 <insert><delete><update> 반환타입은 성공한 row의 개수를 반환하지만
+	<select>는 객채를 반환할 수 있기 때문에
+	즉, 요구하는 기능만 맞는다면 select쿼리 <insert> 사용해도되고 delete인데 <update>로 사용해도됨(ex: delflag)
+ -->
+
+<!-- 
+	insert tag는 parameterType은 있고 resultType은 없음 
+	insert는 myBatis에서는 성공한 row의 갯수를 반환함
+	하지만 쿼리동작 전후 특정한값을 반환하기 위해서는 입력받은 parameter객체를 사용하여 값을 반환
+	이러한 동작하는 tag<selectket>이다
+		시나리오 : insert가 되면 seq가 자동부여 -> 자동으로 부여되는 seq를 입력받은 parameterType인 eDto에 담아
+				pass by reference를 통해서 전달할 수 있도록 함
+				insert 후 입력한 글 상세보기
+-->
+
+	<insert id="insertBoard" parameterType="eDto">
+		<selectKey keyProperty="seq" resultType="java.lang.Integer" order="BEFORE">
+			SELECT ANSWERBOARD_SEQ.NEXTVAL AS SEQ FROM DUAL
+		</selectKey>
+		INSERT INTO ANSWERBOARD
+						(SEQ, ID, TITLE, 
+						REFER, STEP, "DEPTH", 
+						<if test="content != null">
+							CONTENT,
+						</if>
+						DELFLAG, REGDATE)
+					VALUES(#{seq}, #{id}, #{title}, 
+						(SELECT NVL(MAX(REFER),0)  FROM ANSWERBOARD a)+1, 0, 0, 
+						<if test="content != null">
+							#{content},
+						</if>
+						'N', SYSDATE)
+	</insert>
+	
+	<!-- 
+		select tag는 반드시 resultType이 반드시 존재해야한다. parameterType은 Mybatis 내부적으로 자동변경되므로 없어도됨
+		쿼리를 작성할 때 resultType에 Set메소드를 호출하기 떄문에 Column명과 property(set메소드)를 반드시 매핑해줘야함
+		만약 매핑 이름이 다르거나 객체가 join(OGNL, collection 1:n)인 경우에는 resultMap을 선언하여 사용
+	 -->
+	<select id="selectBoard" resultType="eDto">
+		SELECT SEQ, ID, TITLE, CONTENT, TO_CHAR(REGDATE, 'YYYY-MM-DD'), DELFLAG
+			FROM ANSWERBOARD
+			ORDER BY 5 DESC
+	</select>
+	
+	<!-- 
+		UPDATE, INSERT, DELETE : 성공한 ROW의 개수
+		IN절도 동일한 결과를 반환해 줌.
+	 -->
+ 	<update id="updateBoard">
+ 		UPDATE ANSWERBOARD SET DELFLAG = 'Y'
+ 	</update>
+</mapper>

@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%! int n = 0; %>
+<% int m = 0;%>
+<%= n++%><br>
+<%= m++%>
 	<fieldset>
 		<legend>JSON을 호출해서 사용하는 방법</legend>
 		<div>
