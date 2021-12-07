@@ -40,7 +40,7 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 
-	
+	<context:property-placeholder location="classpath:properties/db.properties"/>
 
 
 </beans:beans>
