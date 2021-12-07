@@ -11,7 +11,7 @@
 
 /* var IMP = window.IMP; // 생략 가능
 IMP.init("{가맹점 식별코드}"); // 예: imp00000000 */
-
+수정테스트 
 	function request_pay(){
 	//가맹점 식별코드
 	IMP.init('imp51549826');
