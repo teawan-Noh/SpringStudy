@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.min.edu.model.IService;
 import com.min.edu.vo.EduVo;
-
+//수정테스트중인데 왜 안되냐
 /*
  * @Controller는 Spring Configuration xml에 의해서 bean으로 자동등록됨 => stereotype
  * servlet-context.xml <context:component-scan base-package="com.min.edu">선언되어 있음
