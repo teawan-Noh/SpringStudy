@@ -42,8 +42,8 @@ public class ServiceImpl implements IService {
 	@Transactional
 	@Override
 	public int TransactionTest(EduVo vo) {
-		int n = dao.updateBoard(); 
-		int m = dao.insertBoard(vo);
+		int n = dao.updateBoard(); //모든 기존의 컬럼의 delflag를 Y로 변경함
+		int m = dao.insertBoard(vo); //신규로 데이터를 입력함
 		return n+m;
 	}
 }

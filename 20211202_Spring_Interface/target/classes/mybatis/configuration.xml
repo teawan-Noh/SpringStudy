@@ -5,6 +5,7 @@
 <!-- mapper(query) xml에서 공통으로 사용하는 type 객체를 Alias로 선언 -->
 <typeAliases>
 	<typeAlias type="com.min.edu.vo.EduVo" alias="eDto"/>
+	<typeAlias type="com.min.edu.vo.UserVo" alias="uDto"/>
 </typeAliases>
 
 
@@ -16,6 +17,7 @@
  <!-- SqlSession에서 사용하는 Mapper 파일을 연결 -->
  <mappers>
  	<mapper resource="mapper/EduBoard_mapper.xml"/>
+ 	<mapper resource="mapper/User_mapper.xml"/>
  </mappers>
  
 </configuration>
