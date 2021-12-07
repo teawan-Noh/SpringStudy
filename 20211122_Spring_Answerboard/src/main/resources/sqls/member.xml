@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.dao.MemberDaoImpl">
+
+<!-- 로그인 -->
+<select id="getLogin" parameterType="java.util.Map" resultType="MemberVo">
+	SELECT ID, NAME, PW, AUTH, DELFLAG, REGDATE
+	FROM HAPPYMEMBER
+	WHERE ID = #{id} AND PW = #{pw}
+</select>
+
+<!-- 회원전체조회 -->
+<select id="memberList" resultType="MemberVo">
+	SELECT ID, NAME, PW, AUTH, DELFLAG, TO_CHAR(REGDATE, 'YYYY. MM. DD.') AS REGDATE
+	FROM HAPPYMEMBER
+</select>
+
+<!-- 회원가입 -->
+<insert id="signupMember" parameterType="MemberVo">
+	INSERT INTO HAPPYMEMBER (ID, NAME, PW,
+						AUTH, DELFLAG, REGDATE)
+			VALUES (#{id}, #{name}, #{pw},
+					'U', 'N', SYSDATE)
+</insert>
+
+<!-- 아이디 중복체크 -->
+<select id="idDuplicateCheck" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+		FROM HAPPYMEMBER h 
+		WHERE ID = #{checkid}
+</select>
+
+<!-- 사용중인회원 -->
+<select id="loginMember" parameterType="java.util.Map" resultType="MemberVo">
+	SELECT ID, NAME, PW, AUTH, DELFLAG, REGDATE
+		FROM HAPPYMEMBER
+		WHERE ID = #{id} AND PW = ${pw} AND DELFLAG = 'N'
+</select>
+
+<!-- 패스워드 조회 -->
+<select id="selStringPW" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT PW
+		FROM HAPPYMEMBER h 
+		WHERE ID = #{id}
+</select>
+
+<!-- 아이디 정보 조회 로그인 -->
+<select id="enterLogin" parameterType="java.lang.String" resultType="MemberVo">
+	SELECT ID, NAME, AUTH, REGDATE
+	FROM HAPPYMEMBER h 
+	WHERE ID = #{id}
+</select>
+
+<!-- 사용자 상태정보 변경 -->
+<update id="ChangeUser" parameterType="java.util.Map">
+	UPDATE HAPPYMEMBER SET DELFLAG = #{delflag}
+		WHERE ID = #{id};
+</update>
+
+</mapper>
