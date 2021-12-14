@@ -1,0 +1,35 @@
+기상청 RSS > 생활과 산업 > 서비스 > 인터넷 > RSS (https://web.kma.go.kr/weather/lifenindustry/sevice_rss.jsp)
+RSS를 조회하면 결과 값을 xml형태로 반환해 줌
+공공데이터는 CROS(CROSS Domain)이 되어 있기 때문에 화면에 직접 호출할 경우 값을 전달받지못한다(해킹이라고 판단해서 안준데)
+따라서 반드시 server에서 jsoup으로 요청후 데이터를 다시 화면으로 전송해야 한다.
+
+경기도 안양시 만안구 안양1동 : 
+http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=4117151000
+
+JAVA에서 사용할 때 
+
+javascript에서 사용할 때
+<script>
+// $.ajax({
+		url:'http://www.kma.go.kr/wid/queryDFSRSS.jsp',
+		data:'zone=4157056000',
+		method:'get',
+		success:function(msg){}
+	});
+	
+//	XMLHttpRequest 객체를 통해서 getConnectionURL()
+
+
+var txt = '<rss>'+
+			'<item>' +
+				'<name>홍길동</name>' +
+				'<age>100</age>'
+			'</item>' +
+			'<rss>';
+		//타입만 경형해서 사용
+	parser = new DOMparser();
+	xmlDoc = parse.parseFromString(txt, 'text/xml'); mime type
+	
+	var xml = xmlDoc.getElementsByTagName('rss');
+	var name = xml[0].getElementsByTagName('item')[0].getElementsByTagName('name')[0].childNodes[0].nodeValues;
+</script>

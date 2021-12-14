@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+	<display-name>Archetype Created Web Application</display-name>
+
+	<servlet>
+		<servlet-name>insert</servlet-name>
+		<servlet-class>com.min.edu.ctrl.InsertServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>insert</servlet-name>
+		<url-pattern>/insertBoard.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>select</servlet-name>
+		<servlet-class>com.min.edu.ctrl.SelectServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>select</servlet-name>
+		<url-pattern>/selectBoard.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>modify</servlet-name>
+		<servlet-class>com.min.edu.ctrl.ModifyServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>modify</servlet-name>
+		<url-pattern>/modifyBoard.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>delete</servlet-name>
+		<servlet-class>com.min.edu.ctrl.DeleteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>delete</servlet-name>
+		<url-pattern>/deleteBoard.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ajax</servlet-name>
+		<servlet-class>com.min.edu.ctrl.AjaxServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ajax</servlet-name>
+		<url-pattern>/ajax.do</url-pattern>
+	</servlet-mapping>
+</web-app>

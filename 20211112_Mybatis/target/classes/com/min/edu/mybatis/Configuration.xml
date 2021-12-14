@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+	<properties resource="properties/db.properties"/>
+
+	<typeAliases>
+		<typeAlias type="com.min.edu.dto.JobsVO" alias="JobVo"/>
+	</typeAliases>
+	
+	<!-- eetdp -->
+	<!-- environments 태그는 여러개의 접속 정보를 포함하고 있는 상위 tag/ default = development -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"></transactionManager>
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${user}" />
+				<property name="password" value="${pw}" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="com/min/edu/mybatis/Jobs_Mapper.xml" />
+		<mapper resource="com/min/edu/mybatis/Jobs_Select.xml" />
+		<mapper resource="com/min/edu/mybatis/Jobs_IDU.xml" />
+		<mapper resource="com/min/edu/mybatis/Jobs_Binding.xml" />
+		<mapper resource="com/min/edu/mybatis/Jobs_Dynamic.xml" />
+	</mappers>
+
+</configuration>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//LOG4J//DTD LOG4J//EN" "https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd" >
+<log4j:configuration>
+
+	<!-- appender 영역 : 로그를 출력 혹은 저장 등 설정 -->
+
+	<!-- 실행시 eclipse console 창에 출력 형태 -->
+	<appender name="consoleAppender"
+		class="org.apache.log4j.ConsoleAppender">
+		<!-- 패턴 레이아웃 설정.. -->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%t [%d{yyyy-MM-dd HH:mm:ss}] [%c{1}] [%L] [%p] %m %n" />
+		</layout>
+	</appender>
+
+	<!-- 실행시 param file의 value 위치에 로그를 저장/ 하루에 한번씩 파일을 새로 만듬 -->
+	<appender name="fileAppender"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<!-- 이것은 날짜별로 로그를 남김. 파일명.확장자.DatePattern으로 정의 함 -->
+		<param name="file" value="c:/log/mybatis.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyMMdd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%t> [%d{yyyy-MM-dd HH:mm:ss}] [%c{1}] [%L] [%p] %m %n" />
+		</layout>
+	</appender>
+	<!-- logger 영역 : 출력을 하는 대상 -->
+	<!-- 출력 : fileAppender, consoleAppender에 두가지 영역에 출력 대상 -->
+	<logger name="java.sql.Connection">
+		<level value="TRACE" />
+	</logger>
+	<logger name="java.sql.ResultSet">
+		<level value="TRACE" />
+	</logger>
+	<!-- root 영역 -->
+	<!-- Trace(모든것) -> DEBUG -> INFO -> WARN -> ERROR -> FATAL(치명적 오류) -->
+	<root>
+		<level value="TRACE" />
+		<appender-ref ref="consoleAppender" />
+		<appender-ref ref="fileAppender" />
+	</root>
+</log4j:configuration>

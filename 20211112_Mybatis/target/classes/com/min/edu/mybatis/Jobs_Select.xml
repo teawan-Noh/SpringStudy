@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace 필수/ mapper.xml 구분하기 위한 값/ boot 사용되는 dao의 getClass를 작성 -->
+<mapper namespace="com.min.edu.model.select">
+
+<!-- 반복되는 쿼리문을 선언하여 ref를 사용 -->
+<sql id="selAll">
+	SELECT JOB_ID, JOB_TITLE, MIN_SALARY, MAX_SALARY
+		FROM JOBS_TEMP jt
+</sql>
+
+<!-- resultMap 선언 select04의 결과 Column을 JobsVO의 setter와 매핑-->
+<resultMap type="com.min.edu.dto.JobsVO" id="jobsMap">
+	<result column="EMPLOYEE_ID" property="job_id"/> 
+	<result column="NAME" property="job_title"/>
+	<result column="MANAGER_ID" property="min_salary"/>
+	<result column="DEPARTMENT_ID" property="max_salary"/>
+</resultMap>
+
+	<!-- parameter가 Wrapper 타입(String포함)일 경우 getter/setter가 없기 때문에 판단되지 않음 -->
+	<!-- parameter가 Wrapper 타입(String포함)일 경우 객체에 담겨 있지 않기 때문에 변수명이 정해져 있지 않다 -->
+	<!-- parameter는 Object로 처리되기 때문에 선언하지 않아도 된다 -->
+	<!-- resultType은 반환되는 타입과 같은 타입이어야 하며, int/Integer/java.lang.integer 모두 
+		사용가능 -->
+	<select id="select01" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM JOBS_TEMP jt
+			WHERE JOB_ID = #{a}
+	</select>
+
+	<!-- parameter는 String, resultType을 JobVO 처리 -->
+	<!-- JOB_ID : job_id : setJob_id
+		JOB_TITLE : job_title : setJob_title
+		MIN_SALARY : min_salary : setMin_salary
+		MAX_SALARY : max_salary : setMax_salary
+	 -->
+	<select id="select02" parameterType="java.lang.String" resultType="com.min.edu.dto.JobsVO">
+		SELECT JOB_ID, JOB_TITLE, MIN_SALARY, MAX_SALARY
+			FROM JOBS_TEMP jt
+			WHERE JOB_ID = #{id}
+	</select>
+	
+	<!-- resultMap 결과의 형태가 다른경우 혹은 갯수가 다른 경우 -->
+	<select id="select03" resultType="com.min.edu.dto.JobsVO">
+		SELECT EMPLOYEE_ID JOB_ID, FIRST_NAME || LAST_NAME JOB_TITLE,
+			MANAGER_ID MIN_SALARY, DEPARTMENT_ID MAX_SALARY
+			FROM EMPLOYEES e
+	</select>
+	
+	<!-- resultMap을 선언하여 Coloum과  대응되는 setter를 선언하여 사용한다. -->
+	<select id="select03_1" resultMap="jobsMap">
+		SELECT EMPLOYEE_ID, FIRST_NAME || LAST_NAME NAME,
+			MANAGER_ID, DEPARTMENT_ID
+			FROM EMPLOYEES e 
+	</select>
+	
+	<!-- resultType을 java.util.Map의 형태로 -->
+	<select id="select04" resultType="java.util.Map">
+		<include refid="selAll"/>
+	</select>
+	
+	<!-- parameterType 입력받은 argument를 전달 
+	1. 기본제공타입(Integer, Short, Float, Double, ..., String) 사용할시 변수병을 신경쓰지 않아도 됨
+	2. VO/DTO 객체는 getter 메소드 사용(명명법 맞춰줘야함)
+	3. Map<String, Object> key를 호출하면 key의 name을 사용하게 됨
+	-->
+	
+	<!-- Configuration.xml에 Clss를 Alias선언하여 사용 -->
+	<!-- binding되는 값은 사용하는 parameter의 getter를 호출한다,  getJob_id : job_id -->
+	<select id="select05" parameterType="JobVo" resultType="JobVo">
+		<include refid="selAll"/>
+		WHERE JOB_ID = #{job_id} AND JOB_TITLE = #{job_title}
+		
+	</select>
+	
+	<!-- parameterType을 java.util.Map으로 사용 
+		Mapper.xml의 binding 변수명과 같은 key로 생성해야함
+		mybatis의 메소드인 selectOne을 결과가 없을 경우
+	-->
+	<select id="select06" parameterType="java.util.Map" resultType="JobVo">
+		<include refid="selAll"/>
+		WHERE JOB_ID = #{jobid} AND JOB_TITLE = #{jobtitle}
+		
+	</select>
+	
+	<!-- CDATA 문자열로 인식하여 번역이 되지 않도록 하는 문법                       JobVo : alias Configuration.xml에 있음   -->
+	<select id="select07" parameterType="java.lang.Object" resultType="JobVo">
+		<include refid="selAll"/>
+		<![CDATA[WHERE MIN_SALARY < #{salary}]]>
+		
+		
+		
+	</select>
+	
+</mapper>

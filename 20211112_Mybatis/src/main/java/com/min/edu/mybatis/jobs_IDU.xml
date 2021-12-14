@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.JobsIDUImpl">
+
+<!-- insert, delete, update는 resultType의 속성이 없다 
+	성공한 row의 갯수를 반환하기 때문
+-->
+<insert id="insert01" parameterType="JobVo">
+	<selectKey order="BEFORE" keyProperty="seq" resultType="java.lang.Integer">
+		SELECT JOBS_TEMP_SEQ.NEXTVAL SEQ FROM DUAL
+	</selectKey>
+
+	INSERT INTO JOBS_TEMP
+					(JOB_ID, JOB_TITLE, 
+					MIN_SALARY, MAX_SALARY, 
+					SEQ)
+			VALUES(#{job_id}, #{job_title}, 
+					#{min_salary}, #{max_salary},  
+					#{seq})
+</insert>
+
+<update id="update01" parameterType="java.util.Map">
+	UPDATE JOBS_TEMP
+		SET JOB_ID = #{newid}, JOB_TITLE = #{newtitle}
+		WHERE LOWER(JOB_ID) = #{oldid} AND SEQ = #{seq}
+</update>
+
+<!-- #{} -> ''로 변경이된다  따라서 Integer('1'), Double('1'), String('1')으로 들어간다 고로 상관없음  -->
+<delete id="delete01" parameterType="java.lang.Integer">
+	DELETE FROM JOBS_TEMP jt
+		WHERE SEQ = #{seq}
+</delete>
+
+
+</mapper>
