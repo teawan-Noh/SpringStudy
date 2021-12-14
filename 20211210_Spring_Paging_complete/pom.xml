@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.min.edu</groupId>
-	<artifactId>20211210_Spring_Paging</artifactId>
-	<name>20211210_Spring_Paging</name>
+	<artifactId>20211210_Spring_Paging_complete</artifactId>
+	<name>20211210_Spring_Paging_complete</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -237,7 +237,7 @@
 		
 	</dependencies>
     <build>
-    <finalName>20211210_Spring_Paging</finalName>
+    <finalName>20211210_Spring_Paging_complete</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
