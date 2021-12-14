@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.UserDaoImpl">
+
+	<!-- 
+		resultMap : 1 : N의 Join방식으로 하나에 여러개의 값을 담을 때 사용
+					쿼리문의 컬럼명이 변화(함수, 연산 등)가 있을 때(Alias를 사용하지 않고) 사용
+	-->
+
+	
+	<!-- resultMap은 쿼리의 결과 컬럼이 다른 겨우 1:1로 매핑할때 사용해라 -->
+	<resultMap type="uDto" id="loginMap">
+		<!-- <result property="id" column="ID"/>
+		<result property="name" column="NAME"/>
+		<result property="auth" column="AUTH"/> -->
+		<result property="pw" column="PASSWORD"/>
+	</resultMap>
+	
+	<!-- 
+		바인딩
+		#{} : DTO/VO의 getter를 호출, 또는 JCF Map의 키를 호출한다. 헝가리안 방식을 사용, 바인딩된 값을 '(single quote) 처리
+		${} : 문자열 바인딩, 컬럼과 같이 '(single quote) 처리를 하지 않고 문자로 처리. Sql Ingection공격을 당할 수 있으므로 주의할것
+	-->
+	<select id="login" parameterType="uDto" resultMap="loginMap">
+		SELECT ID, PW PASSWORD, NAME, REGDATE, AUTH, DELFLAG
+			FROM HAPPYMEMBER
+			WHERE ID=#{id} AND PW=#{pw}
+	</select>
+	
+	<!-- 
+		selectKey - 회원가입인데 자동으로 부여되는 ID 
+	-->
+	<insert id="regist" parameterType="uDto">
+		INSERT INTO HAPPYMEMBER(ID,NAME,PW,AUTH,DELFLAG,REGDATE)
+			VALUES(#{id},#{name},#{pw},'A','N',SYSDATE)
+			<selectKey keyProperty="id" resultType="java.lang.String" order="AFTER">
+				SELECT ID FROM HAPPYMEMBER WHERE ID=#{id} AND PW=#{pw}
+			</selectKey>
+	</insert>
+	
+	<!-- 
+		Wrapper클래스와 String으로 ParameterType을 처리했을 경우 
+		MyBatis에서는 resultType을 선언하지 않아도 되고, 명확한 WrapperClass의 이름을 사용하지 않아도 된다.
+		ex)java.lang.Integer => int
+		WrapperClass가 아닌 객체 POJO(encapsulation)객체는 getter/setter가 있어야 한다.
+		Map은 {key:value} key
+		
+		WrapperClass나 Map을 사용하는 이유는 myBatis는 객체에 담겨있는 변수만을 dynamic 처리할 수 있다.
+	-->
+	<select id="checkUser" parameterType="java.lang.String" resultType="java.lang.String">
+    	SELECT ID FROM HAPPYMEMBER WHERE ID=#{val}
+    </select>
+	
+	<!-- 
+		xml(MARKUP)과 같은 태그의 문법은 열고 닫음으로 구성되어 있다 -> Well-formed 되어있다고 한다.
+		<는 무조건 태그의 시작이라는 문법이다. 따라서 <가 포함되어있는 문자열을
+		parse(문법으로 변경하여 인식)하지 않고 사용하기 위해서는 CDATA라는 문법으로 처리해야한다.
+		
+		java에서는 escape문자 \표기 후 문자 ex) \"
+		html에서는 entity tag표를 통해서 변경 ex) &lt;
+		javascript에서 문자로 인식시키기 위해서는 uriEncodingComponent를 통해서 처리할 수 있다. 
+	-->
+	<select id="CDATA_TEST" parameterType="java.lang.String" resultType="java.lang.String">
+		<![CDATA[SELECT * FROM ANSWERBOARD WHERE SEQ < #{num}]]>
+	</select>
+	
+</mapper>
