@@ -110,7 +110,7 @@ public class BoardController {
 
 	@RequestMapping(value = "/detailBoard.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView detailBoard(int seq) {
-		logger.info("BoardController 새글 입력 detailBoard : {}", seq);
+		logger.info("BoardController detailBoard : {}", seq);
 		ModelAndView mav = new ModelAndView();
 		// 값과 이동 jsp를 같이 mav 객체에 담아준다
 

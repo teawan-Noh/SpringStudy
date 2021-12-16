@@ -25,6 +25,13 @@ public class HomeController {
 	@RequestMapping(value = "/home.do", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
+		//다른 테이블에서 받아오는 코드로 변경할것
+		model.addAttribute("productName", "상품");
+		model.addAttribute("price", 100);
+		model.addAttribute("userEmail", "testemail@gmail.com");
+		model.addAttribute("userName", "테스터");
+		model.addAttribute("userTel", "010-1234-7777");
+		
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);

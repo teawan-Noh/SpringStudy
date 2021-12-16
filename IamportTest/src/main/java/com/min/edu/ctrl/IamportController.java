@@ -34,13 +34,15 @@ import retrofit2.Response;
 public class IamportController {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final String apiKey = "6833076151848562";
+	private final String apisecret = "8cb171ad19502807f44c2224bb7043e04bbf3de216913e05207c936292513f0ad798b4707825784c";
 	
 	private IamportClient client;
 	
 	public IamportController() {
-		String api_key = "6833076151848562";
-		String api_secret = "8cb171ad19502807f44c2224bb7043e04bbf3de216913e05207c936292513f0ad798b4707825784c";
-		client = new IamportClient(api_key, api_secret);
+//		String api_key = apiKey;
+//		String api_secret = apisecret;
+		client = new IamportClient(apiKey, apisecret);
 //			IamportResponse<AccessToken> access_token = client.getAuth();
 //			System.out.println("access_token: " + access_token.getResponse().getToken());
 	}

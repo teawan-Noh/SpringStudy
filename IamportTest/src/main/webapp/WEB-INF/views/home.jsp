@@ -19,11 +19,11 @@ IMP.init("{가맹점 식별코드}"); // 예: imp00000000 //html5_inicis */
 	    pg : 'html5_inicis',
 	    pay_method : 'card',
 	    merchant_uid : 'merchant_' + new Date().getTime(),
-	    name : '상품3' , //결제창에서 보여질 이름
-	    amount : 100, //실제 결제되는 가격
-	    buyer_email : 'iamport@siot.do',
-	    buyer_name : '테스터1',
-	    buyer_tel : '010-1234-7777',
+	    name : '${productName}' , //결제창에서 보여질 이름
+	    amount : '${price}', //실제 결제되는 가격
+	    buyer_email : '${userEmail}',
+	    buyer_name : '${userName}',
+	    buyer_tel : '${userTel}',
 	    /* buyer_addr : '서울 강남구 도곡동',
 	    buyer_postcode : '123-456' */
 	}, function(rsp) {
@@ -35,14 +35,14 @@ IMP.init("{가맹점 식별코드}"); // 예: imp00000000 //html5_inicis */
 	        msg += '결제 금액 : ' + rsp.paid_amount;
 	        msg += '카드 승인번호 : ' + rsp.apply_num;
 	        /* 결제검증 */
+	        var sendData = {"imp_uid":rsp.imp_uid, "pg":rsp.pg_provider, "pay_method":rsp.pay_method,
+	        				"card_name":rsp.card_name, "price":rsp.paid_amount}
 	        $.ajax({
-	        	url : "./verifyPayInfo.do" ,
+	        	url : "./paymentInsert.do" ,
 	        	type : "POST",
-	        	data: {
-	                imp_uid: rsp.imp_uid,
-	                merchant_uid: rsp.merchant_uid,
-	                paid_amount: rsp.paid_amount
-	            }
+	        	data: JSON.stringify(sendData),
+	        	contentType : 'application/json; charset=UTF-8',
+	            dataType : 'json'
 	        }).done(function(data) {
 	        	
 	        	console.log(data);
@@ -95,6 +95,9 @@ IMP.init("{가맹점 식별코드}"); // 예: imp00000000 //html5_inicis */
 	<h2>첫화면인데</h2>
 	<button onclick="request_pay()">결제</button>
 	<button onclick="cancelPay()">환불하기</button>
+	<button onclick="location.href='./productList.do'">상품 전체 보기</button>
+	<button onclick="location.href='./paymentList.do'">결제내역 전체 보기</button>
+	
 </body>
 
 

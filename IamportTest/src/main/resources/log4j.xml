@@ -23,7 +23,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.min.edu">
-		<level value="DEBUG" />
+		<level value="TRACE" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

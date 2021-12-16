@@ -101,7 +101,7 @@ public class BoardController {
 		} else {
 			resp.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = resp.getWriter();
-			out.println("<scrip>alert('새글 입력 실패'); location.href='index.jsp';</scrip>");
+			out.println("<script>alert('새글 입력 실패'); location.href='index.jsp';</script>");
 			out.flush();
 
 			return null;

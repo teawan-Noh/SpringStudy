@@ -19,8 +19,8 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${driver}"/>
 		<property name="url" value="${url}"/>
-		<property name="username" value="${username}"/>
-		<property name="password" value="${passowrd}"/>
+		<property name="username" value="${user}"/>
+		<property name="password" value="${pw}"/>
 	</bean>
 	<!-- 
 		Mybatis SqlSessionFactory bean 생성 
@@ -31,7 +31,7 @@
 	-->
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
-		<property name="configLocation" value="classpath:mybatis/configuration.xml"></property>
+		<property name="configLocation" value="classpath:sqls/configuration.xml"></property>
 	</bean>
 	
 	<!-- Spring DI(의존적주입)을 위한 SqlSessionTemplate bean 생성 -->

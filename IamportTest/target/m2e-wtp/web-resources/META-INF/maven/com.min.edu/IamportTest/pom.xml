@@ -4,8 +4,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.min.edu</groupId>
-	<artifactId>20211202_Spring_Interface</artifactId>
-	<name>20211202_Spring_Interface</name>
+	<artifactId>IamportTest</artifactId>
+	<name>IamportTest</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 
@@ -137,6 +137,20 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.9</version>
+		</dependency>
+
+		<!-- dbcp2 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		
 
 		<!-- Spring의 Bean을 테스트 하기 위한 라이브러리 + junit과 같이 사용됨 -->
 		<dependency>
@@ -171,7 +185,7 @@
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
-			<version>3.5.6</version>
+			<version>3.4.6</version>
 		</dependency>
 
 		<!-- MyBatis sqlSessionFactory 객체를 bean으로 만들어야한다. mybatis-spring.jar -->
@@ -187,11 +201,22 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc10</artifactId>
+			<version>19.12.0.0</version>
+		</dependency>
 
+		<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-test</artifactId>
+    		<version>${org.springframework-version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>20211202_Spring_Interface</finalName>
+		<finalName>IamportTest</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
