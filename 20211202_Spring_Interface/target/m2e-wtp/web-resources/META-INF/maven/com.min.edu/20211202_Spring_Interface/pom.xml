@@ -126,11 +126,11 @@
 		
 		<!-- Spring의 Bean을 테스트 하기 위한 라이브러리 + JUnit과 같이 사용된다. -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-test</artifactId>
-	    <version>${org.springframework-version}</version>
-	</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 		 
 		
 		<!-- AccessLogFilter에서 String 처리를 위해서 사용함. null변경을 위해서 사용한다. -->

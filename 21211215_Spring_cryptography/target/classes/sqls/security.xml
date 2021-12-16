@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.LoginDaoImpl">
+
+<insert id="join" parameterType="loginDto">
+	INSERT INTO USERSECURITY(NAME,PASSWORD)
+		VALUES(#{name}, #{password})
+</insert>
+
+<select id="selPassword" parameterType="loginDto" resultType="java.lang.String">
+	SELECT PASSWORD FROM USERSECURITY WHERE NAME=#{name}
+</select>
+
+<select id="login" parameterType="loginDto" resultType="loginDto">
+	SELECT NAME FROM USERSECURITY WHERE NAME=#{name}
+</select>
+</mapper>
