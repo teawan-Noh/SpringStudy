@@ -1,0 +1,33 @@
+{
+	"folders": {},
+	"connections": {
+		"mysql8-17deb0e90f2-3c380a0f999feff": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "student",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "3306",
+				"database": "student",
+				"url": "jdbc:mysql://localhost:3306/student",
+				"home": "C:\\Program Files\\MySQL\\MySQL Server 8.0",
+				"type": "dev",
+				"auth-model": "native",
+				"handlers": {}
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"auto-close-transactions": false
+		}
+	}
+}
