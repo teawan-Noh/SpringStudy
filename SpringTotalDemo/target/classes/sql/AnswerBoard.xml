@@ -6,8 +6,47 @@
 	SELECT SEQ, ID, TITLE, CONTENT, REFER, STEP, DEPTH, DELFLAG, REGDATE
 	FROM ANSWERBOARD;
 </sql>
-
+<!-- 새글쓰기 -->
 <insert id="writeBoard" parameterType="AnswerBoardDto">
+	<selectKey keyProperty="seq" resultType="java.lang.Integer" order="BEFORE">
+		SELECT TOTALBOARD_SEQ.NEXTVAL SEQ FROM DUAL
+	</selectKey>
 	
+	INSERT INTO TOTALBOARD (SEQ, ID, TITLE, 
+							CONTENT, STEP, DEPTH, 
+							REFER, READCOUNT, DELFLAG, 
+							REGDATE)
+				VALUES(#{seq}, #{id}, #{title},
+				       #{content}, 0, 0,
+				       (SELECT NVL(MAX(REFER),0) FROM TOTALBOARD)+1, 0, 'N',
+				       SYSDATE)	
 </insert>
+
+<!-- 답글 업데이트 -->
+<update id="replyUpdate" parameterType="AnswerBoardDto">
+	UPDATE TOTALBOARD SET STEP = STEP+1
+		WHERE
+			REFER = (SELECT REFER FROM TOTALBOARD WHERE SEQ=#{seq})
+		AND
+			STEP > (SELECT STEP FROM TOTALBOARD WHERE SEQ = #{seq})
+</update>
+
+<!-- 답글 입력 -->
+<insert id="replyInsert" parameterType="AnswerBoardDto">
+	INSERT INTO TOTALBOARD (SEQ, ID, TITLE, 
+							CONTENT, STEP, DEPTH, 
+							REFER, READCOUNT, DELFLAG, 
+							REGDATE)
+				VALUES(TOTALBOARD_SEQ.NEXTVAL, #{id},#{title},
+				#{content}, (SELECT STEP FROM TOTALBOARD WHERE SEQ =#{seq})+1 , (SELECT DEPTH FROM TOTALBOARD WHERE SEQ=#{seq})+1,
+				(SELECT REFER FROM TOTALBOARD WHERE SEQ=#{seq}), 0, 'N',
+				SYSDATE)
+</insert>
+<!-- 상세글 보기 -->
+<select id="getOneBoard" parameterType="java.lang.String" resultType="AnswerBoardDto">
+	<include refid="selBoard"/>
+	WHERE SEQ=#{seq}
+</select>
+
+
 </mapper>
