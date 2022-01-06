@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.min.edu.dto.AnswerBoard_Dto;
-import com.min.edu.dto.RowNum_Dto;
 
 public interface IBoardDao {
 
@@ -31,16 +30,16 @@ public interface IBoardDao {
 //	deleteBoardSel        하위 삭제 대상 조회
 	public List<AnswerBoard_Dto> deleteBoardSel(String seq);
 	
-//	userBoardList         사용자 게시글 전체
+//	userBoardList         사용자 게시글 전체 조회
 	public List<AnswerBoard_Dto> userBoardList();
 	
-//	userBoardListRow      사용자 게글 전체조회(페이징)
-	public List<AnswerBoard_Dto> userBoardListRow(RowNum_Dto dto);
+//	userBoardListRow      사용자 게시글 전체조회(페이징)
+//	public List<AnswerBoard_Dto> userBoardListRow(RowNum_Dto dto);
 //	userBoardListTotal    사용자 전체 글 갯수
 	public int userBoardListTotal();
 	
 //	adminBoardListRow     관리자 게시글 전체조회(페이징)
-	public List<AnswerBoard_Dto> adminBoardListRow(RowNum_Dto dto);
+//	public List<AnswerBoard_Dto> adminBoardListRow(RowNum_Dto dto);
 //	adminBoardListTotal   관리자 전체 글 갯수
 	public int adminBoardListTotal();
 }
