@@ -7,13 +7,15 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.min.edu.dto.AnswerBoard_Dto;
 
-public class BoardDaoImpl implements IBoardDao {
+@Repository
+public class AnswerBoardDaoImpl implements IAnswerBoardDao {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	private final String NS ="com.min.edu.model.IBoardDao.";
+	private final String NS ="com.min.edu.model.IAnswerBoardDao.";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -32,7 +34,7 @@ public class BoardDaoImpl implements IBoardDao {
 
 	@Override
 	public boolean replyInsert(AnswerBoard_Dto dto) {
-		int n = sqlSession.insert(NS+"replyInsert", dto);
+		int n =  sqlSession.insert(NS+"replyInsert", dto);
 		return n>0?true:false;
 	}
 
@@ -44,18 +46,17 @@ public class BoardDaoImpl implements IBoardDao {
 	@Override
 	public void readCountBoard(String seq) {
 		sqlSession.update(NS+"readCountBoard", seq);
-		
 	}
 
 	@Override
 	public boolean delflagBoard(Map<String, String[]> map) {
-		int n  = sqlSession.update(NS+"delflagBoard", map);
+		int n = sqlSession.delete(NS+"delflagBoard", map);
 		return n>0?true:false;
 	}
 
 	@Override
 	public boolean deleteBoard(List<String> seqs) {
-		int n  = sqlSession.delete(NS+"deleteBoard", seqs);
+		int n = sqlSession.delete(NS+"deleteBoard", seqs);
 		return n>0?true:false;
 	}
 

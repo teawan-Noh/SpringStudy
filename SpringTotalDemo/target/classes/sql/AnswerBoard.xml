@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="IAnswerBoardDao">
+<mapper namespace="com.min.edu.model.IAnswerBoardDao">
 
 <sql id="selBoard">
-	SELECT SEQ, ID, TITLE, CONTENT, REFER, STEP, DEPTH, DELFLAG, REGDATE
-	FROM ANSWERBOARD;
+	SELECT SEQ, ID, TITLE, CONTENT, STEP, DEPTH, REFER, READCOUNT, DELFLAG, REGDATE
+	FROM TOTALBOARD
 </sql>
+
 <!-- 새글쓰기 -->
 <insert id="writeBoard" parameterType="AnswerBoardDto">
 	<selectKey keyProperty="seq" resultType="java.lang.Integer" order="BEFORE">
@@ -19,7 +20,7 @@
 				VALUES(#{seq}, #{id}, #{title},
 				       #{content}, 0, 0,
 				       (SELECT NVL(MAX(REFER),0) FROM TOTALBOARD)+1, 0, 'N',
-				       SYSDATE)	
+				       SYSDATE)
 </insert>
 
 <!-- 답글 업데이트 -->
@@ -42,11 +43,74 @@
 				(SELECT REFER FROM TOTALBOARD WHERE SEQ=#{seq}), 0, 'N',
 				SYSDATE)
 </insert>
+
 <!-- 상세글 보기 -->
-<select id="getOneBoard" parameterType="java.lang.String" resultType="AnswerBoardDto">
+<select id="getOneBoard" parameterType="java.lang.String"
+						resultType="AnswerBoardDto">
 	<include refid="selBoard"/>
-	WHERE SEQ=#{seq}
+	WHERE SEQ =#{seq}
+</select>
+
+<!-- 조회수 증가 -->
+<update id="readCountBoard" parameterType="java.lang.String">
+	UPDATE TOTALBOARD SET READCOUNT = READCOUNT +1
+		WHERE SEQ = #{seq}
+</update>
+
+<!-- 글삭제 Delflag -->
+<delete id="delflagBoard" parameterType="java.util.Map">
+	UPDATE TOTALBOARD SET DELFLAG = 'Y'
+		WHERE DELFLAG = 'N'
+		AND SEQ IN
+		<foreach collection="seqs" item="seq" open="(" separator="," close=")">
+			#{seq}
+		</foreach>
+</delete>
+
+<!-- 글삭제 DB -->
+<delete id="deleteBoard" parameterType="java.util.List">
+	DELETE FROM TOTALBOARD
+		WHERE SEQ IN
+		<foreach collection="list" item="seq" open="(" separator="," close=")">
+			#{seq}
+		</foreach>
+</delete>
+
+<!-- 하위 삭제 대상 조회 -->
+<select id="deleteBoardSel" parameterType="java.lang.String"
+							resultType="AnswerBoardDto">
+	<include refid="selBoard"/>
+	WHERE REFER = (SELECT REFER FROM TOTALBOARD WHERE SEQ = #{seq})
+		AND STEP >= (SELECT STEP FROM TOTALBOARD WHERE SEQ = #{seq})
+		AND DEPTH >= (SELECT DEPTH FROM TOTALBOARD WHERE SEQ = #{seq})
+	ORDER BY REFER DESC, STEP ASC
 </select>
 
 
+<!-- 사용자 게시글 전체 -->
+<select id="userBoardList" resultType="AnswerBoardDto">
+	<include refid="selBoard"/>
+	WHERE DELFLAG = 'N'
+	ORDER BY REFER DESC , STEP ASC
+</select>
+
+<!-- 관리자 게시글 전체 -->
+<select id="adminBoardList" resultType="AnswerBoardDto">
+	<include refid="selBoard"/>
+	ORDER BY REFER DESC , STEP ASC
+</select>
+
+
+<!-- 사용자 전체 글 갯수 -->
+<select id="userBoardListTotal" resultType="java.lang.Integer">
+	SELECT COUNT(*)	
+		FROM TOTALBOARD
+		WHERE DELFLAG = 'N'
+</select>
+
+<!-- 관리자 전체 글 갯수 -->
+<select id="adminBoardListTotal" resultType="java.lang.Integer">
+	SELECT COUNT(*)	
+		FROM TOTALBOARD
+</select>
 </mapper>

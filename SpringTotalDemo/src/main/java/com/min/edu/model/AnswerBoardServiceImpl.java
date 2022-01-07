@@ -6,15 +6,17 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.min.edu.dto.AnswerBoard_Dto;
 
-public class BoardServiceImpl implements IBoardService {
+@Service
+public class AnswerBoardServiceImpl implements IAnswerBoardService {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private IBoardDao dao;
+	private IAnswerBoardDao dao;
 	
 	@Override
 	public boolean writeBoard(AnswerBoard_Dto dto) {

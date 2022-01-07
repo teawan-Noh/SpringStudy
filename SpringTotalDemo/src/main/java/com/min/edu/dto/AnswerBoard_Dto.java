@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class AnswerBoard_Dto implements Serializable{
 	
-	private static final long serialVersionUID = -6221671435238230394L;
+	private static final long serialVersionUID = -6221671435235230394L;
 	private int seq;
 	private String id;
 	private String title;

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.min.edu.dto.AnswerBoard_Dto;
 
-public interface IBoardDao {
+public interface IAnswerBoardDao {
 
 //	writeBoard            새글쓰기
 	public boolean writeBoard(AnswerBoard_Dto dto);
@@ -30,16 +30,12 @@ public interface IBoardDao {
 //	deleteBoardSel        하위 삭제 대상 조회
 	public List<AnswerBoard_Dto> deleteBoardSel(String seq);
 	
-//	userBoardList         사용자 게시글 전체 조회
+//	userBoardList         사용자 게시글 전체
 	public List<AnswerBoard_Dto> userBoardList();
 	
-//	userBoardListRow      사용자 게시글 전체조회(페이징)
-//	public List<AnswerBoard_Dto> userBoardListRow(RowNum_Dto dto);
 //	userBoardListTotal    사용자 전체 글 갯수
 	public int userBoardListTotal();
 	
-//	adminBoardListRow     관리자 게시글 전체조회(페이징)
-//	public List<AnswerBoard_Dto> adminBoardListRow(RowNum_Dto dto);
 //	adminBoardListTotal   관리자 전체 글 갯수
 	public int adminBoardListTotal();
 }

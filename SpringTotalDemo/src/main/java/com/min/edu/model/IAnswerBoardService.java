@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.min.edu.dto.AnswerBoard_Dto;
 
-public interface IBoardService {
+public interface IAnswerBoardService {
 
 //	writeBoard            새글쓰기
 	public boolean writeBoard(AnswerBoard_Dto dto);
