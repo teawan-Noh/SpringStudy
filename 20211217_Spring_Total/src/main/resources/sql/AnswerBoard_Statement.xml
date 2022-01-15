@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.IAnswerBoardDao">
+
+<sql id="selBoard">
+	SELECT SEQ, ID, TITLE, CONTENT, STEP, DEPTH, REFER, READCOUNT, DELFLAG, REGDATE
+	FROM TOTALBOARD
+</sql>
+
+<!-- 새글쓰기 -->
+<insert id="writeBoard" parameterType="AnswerBoardDto">
+	<selectKey keyProperty="seq" resultType="java.lang.Integer" order="BEFORE">
+		SELECT TOTALBOARD_SEQ.NEXTVAL SEQ FROM DUAL
+	</selectKey>
+	
+	INSERT INTO TOTALBOARD (SEQ, ID, TITLE, 
+							CONTENT, STEP, DEPTH, 
+							REFER, READCOUNT, DELFLAG, 
+							REGDATE)
+				VALUES(#{seq}, #{id}, #{title},
+				       #{content}, 0, 0,
+				       (SELECT NVL(MAX(REFER),0) FROM TOTALBOARD)+1, 0, 'N',
+				       SYSDATE)
+</insert>
+
+<!-- 답글 업데이트 -->
+<update id="replyUpdate" parameterType="AnswerBoardDto">
+	UPDATE TOTALBOARD SET STEP = STEP+1
+		WHERE
+			REFER = (SELECT REFER FROM TOTALBOARD WHERE SEQ=#{seq})
+		AND
+			STEP > (SELECT STEP FROM TOTALBOARD WHERE SEQ = #{seq})
+</update>
+
+<!-- 답글 입력 -->
+<insert id="replyInsert" parameterType="AnswerBoardDto">
+	INSERT INTO TOTALBOARD (SEQ, ID, TITLE, 
+							CONTENT, STEP, DEPTH, 
+							REFER, READCOUNT, DELFLAG, 
+							REGDATE)
+				VALUES(TOTALBOARD_SEQ.NEXTVAL, #{id},#{title},
+				#{content}, (SELECT STEP FROM TOTALBOARD WHERE SEQ =#{seq})+1 , (SELECT DEPTH FROM TOTALBOARD WHERE SEQ=#{seq})+1,
+				(SELECT REFER FROM TOTALBOARD WHERE SEQ=#{seq}), 0, 'N',
+				SYSDATE)
+</insert>
+
+<!-- 상세글 보기 -->
+<select id="getOneBoard" parameterType="java.lang.String"
+						resultType="AnswerBoardDto">
+	<include refid="selBoard"/>
+	WHERE SEQ =#{seq}
+</select>
+
+<!-- 조회수 증가 -->
+<update id="readCountBoard" parameterType="java.lang.String">
+	UPDATE TOTALBOARD SET READCOUNT = READCOUNT +1
+		WHERE SEQ = #{seq}
+</update>
+
+<!-- 글삭제 Delflag -->
+<delete id="delflagBoard" parameterType="java.util.Map">
+	UPDATE TOTALBOARD SET DELFLAG = 'Y'
+		WHERE DELFLAG = 'N'
+		AND SEQ IN
+		<foreach collection="seqs" item="seq" open="(" separator="," close=")">
+			#{seq}
+		</foreach>
+</delete>
+
+<!-- 글삭제 DB -->
+<delete id="deleteBoard" parameterType="java.util.List">
+	DELETE FROM TOTALBOARD
+		WHERE SEQ IN
+		<foreach collection="list" item="seq" open="(" separator="," close=")">
+			#{seq}
+		</foreach>
+</delete>
+
+<!-- 하위 삭제 대상 조회 -->
+<select id="deleteBoardSel" parameterType="java.lang.String"
+							resultType="AnswerBoardDto">
+	<include refid="selBoard"/>
+	WHERE REFER = (SELECT REFER FROM TOTALBOARD WHERE SEQ = #{seq})
+		AND STEP >= (SELECT STEP FROM TOTALBOARD WHERE SEQ = #{seq})
+		AND DEPTH >= (SELECT DEPTH FROM TOTALBOARD WHERE SEQ = #{seq})
+	ORDER BY REFER DESC, STEP ASC
+</select>
+
+
+<!-- 사용자 게시글 전체 -->
+<select id="userBoardList" resultType="AnswerBoardDto">
+	<include refid="selBoard"/>
+	WHERE DELFLAG = 'N'
+	ORDER BY REFER DESC , STEP ASC
+</select>
+
+<!-- 관리자 게시글 전체 -->
+<select id="adminBoardList" resultType="AnswerBoardDto">
+	<include refid="selBoard"/>
+	ORDER BY REFER DESC , STEP ASC
+</select>
+
+<!-- 사용자 게시글 전체조회(페이징) -->
+<select id="userBoardListRow" parameterType="RowNumDto"
+							  resultType="AnswerBoardDto">
+	SELECT 	SEQ, ID, TITLE, CONTENT, STEP, DEPTH, REFER, READCOUNT, DELFLAG, REGDATE
+	    FROM(					  
+				SELECT SEQ, ID, TITLE, CONTENT, STEP, DEPTH, REFER, READCOUNT, DELFLAG, REGDATE,
+					   ROW_NUMBER() OVER(ORDER BY REFER DESC, STEP) RM
+					   FROM TOTALBOARD
+					   WHERE DELFLAG = 'N'
+		    )
+		WHERE RM BETWEEN #{start} AND #{last}
+</select>
+
+<!-- 사용자 전체 글 갯수 -->
+<select id="userBoardListTotal" resultType="java.lang.Integer">
+	SELECT COUNT(*)	
+		FROM TOTALBOARD
+		WHERE DELFLAG = 'N'
+</select>
+
+
+<!-- 관리자 게시글 전체조회(페이징) -->
+<select id="adminBoardListRow" parameterType="RowNumDto"
+							  resultType="AnswerBoardDto">
+	SELECT 	SEQ, ID, TITLE, CONTENT, STEP, DEPTH, REFER, READCOUNT, DELFLAG, REGDATE
+	    FROM(					  
+				SELECT SEQ, ID, TITLE, CONTENT, STEP, DEPTH, REFER, READCOUNT, DELFLAG, REGDATE,
+					   ROW_NUMBER() OVER(ORDER BY REFER DESC, STEP) RM
+					   FROM TOTALBOARD
+		    )
+		WHERE RM BETWEEN #{start} AND #{last}
+</select>
+
+<!-- 관리자 전체 글 갯수 -->
+<select id="adminBoardListTotal" resultType="java.lang.Integer">
+	SELECT COUNT(*)	
+		FROM TOTALBOARD
+</select>
+
+<update id="modifyBoard" parameterType="AnswerBoardDto">
+	UPDATE TOTALBOARD SET TITLE=#{title}, CONTENT=#{content}
+		WHERE SEQ = #{seq}
+</update>
+
+</mapper>
+
+
+
+
+

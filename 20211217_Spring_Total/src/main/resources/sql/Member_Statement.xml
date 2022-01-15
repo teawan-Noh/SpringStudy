@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.min.edu.model.IMemberDao">
+
+<!-- 회원전체 조회 -->
+<select id="memberList" resultType="MemberDto">
+	SELECT ID, NAME, AUTH, DELFLAG, TO_CHAR(REGDATE, 'YYYY. MM. DD.') AS REGDATE
+	FROM TOTALMEMBER
+</select>
+
+<!-- 회원가입 -->
+<insert id="signupMember" parameterType="MemberDto">
+	INSERT INTO TOTALMEMBER(ID, NAME, PW, 
+						   AUTH, DELFLAG, REGDATE)
+				VALUES(#{id}, #{name}, #{pw},
+					  'U','N',SYSDATE)
+</insert>
+
+<!-- 아이디중복검사 -->
+<select id="idDuplicateCheck" parameterType="java.lang.String"
+						      resultType="java.lang.Integer">
+	SELECT COUNT(ID) 
+		FROM TOTALMEMBER
+		WHERE ID = #{id}
+</select>
+
+<!-- 로그인 -->
+<select id="loginMember" parameterType="java.util.Map"
+						resultType="MemberDto">
+	SELECT ID, NAME, AUTH, REGDATE
+		FROM TOTALMEMBER
+		WHERE ID=#{id} AND PW=#{pw} AND DELFLAG='N'
+</select>
+
+<!-- PW 비교 -->
+<select id="selStringPw" parameterType="java.lang.String" 
+					resultType="java.lang.String">
+	SELECT PW
+		FROM TOTALMEMBER
+		WHERE ID= #{id}
+</select>
+
+<!-- Security Login -->
+<select id="enLogin" parameterType="java.lang.String" resultType="MemberDto">
+	SELECT ID, NAME, AUTH, REGDATE
+		FROM TOTALMEMBER
+		WHERE ID = #{id}
+</select>
+
+<!-- 사용자 상태 변경 -->
+<update id="chageUser" parameterType="java.util.Map"
+						>
+	UPDATE TOTALMEMBER SET DELFLAG = #{delflag} WHERE ID =#{id}
+</update>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

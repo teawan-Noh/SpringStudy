@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+<typeAliases>
+	<typeAlias type="com.min.edu.dto.AnswerBoard_Dto" alias="AnswerBoardDto"/>
+	<typeAlias type="com.min.edu.dto.Member_Dto" alias="MemberDto"/>
+	<typeAlias type="com.min.edu.dto.RowNum_Dto" alias="RowNumDto"/>
+</typeAliases>
+
+<mappers>
+	<mapper resource="sql/AnswerBoard_Statement.xml"/>
+	<mapper resource="sql/Member_Statement.xml"/>
+</mappers>
+
+</configuration>
