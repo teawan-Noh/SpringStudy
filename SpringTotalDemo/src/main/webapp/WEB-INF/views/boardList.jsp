@@ -12,8 +12,6 @@
 <body>
 	<div class="container">
 		<h2>Basic Table</h2>
-		<p>The .table class adds basic styling (light padding and only
-			horizontal dividers) to a table:</p>
 		<table class="table">
 			<thead>
 				<tr>
@@ -32,7 +30,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="board" items="boardList">
+				<c:forEach var="board" items="${boardList}">
 				<tr>
 					<td>${board.seq}</td>
 					<td>${board.title}</td>

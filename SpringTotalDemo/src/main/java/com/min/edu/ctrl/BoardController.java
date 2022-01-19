@@ -26,6 +26,7 @@ public class BoardController {
 		List<AnswerBoard_Dto> boardList = boardService.userBoardList();
 		
 		model.addAttribute("boardList", boardList);
+		System.out.println(boardList);
 		
 		return "boardList";
 	}
