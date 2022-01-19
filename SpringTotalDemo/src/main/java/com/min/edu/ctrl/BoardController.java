@@ -27,6 +27,7 @@ public class BoardController {
 		
 		model.addAttribute("boardList", boardList);
 		System.out.println(boardList);
+		System.out.println("코드업1020부터 풀기");
 		
 		return "boardList";
 	}
