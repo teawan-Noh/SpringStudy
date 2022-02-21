@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	<!-- 10번 줄 화살표 : advice by transaction.interceptor.TransactionInterceptor.invoke -->
+	
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<!-- MVC Annotation-driven : MVC에서 알아서 값을 보내거나 할때 작동 -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- 안되서 주석처리했는데 jsp에 form:form-modelAttribute 설정으로 바꿔줌 테스트 해볼것  -->
+	<!-- <beans:bean id="uvo" class="com.min.edu.vo.UserVo"/> -->
+	
+	<!-- validation 처리를 위한 bean -->
+	<beans:bean id="localValidatorFactoryBean" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+	
+	<context:component-scan base-package="com.min.edu" />
+	
+	<!-- 
+		Transaction을 처리하기 위한 tx namespace 설정 
+		
+		namespaces를 사용하기 위해서 orm-spring.jar가 필요하다.
+		
+		root-context.xml에 transactionManager가 설정되어 있어야 한다.
+		@Service는 @Repository를 조합하여 사용하고 있다.
+		@Service의 메소드에 Transaction을 처리하면 @Repository의 메소드가 오류가 발생했을때
+		Transaction을 Stpring이 IoC로 제어할 수 있다.
+		ts:annotation-driven은 @Service메소드에 @Transactinal의 Annotation으로 Transaction을 작동시킨다.
+	-->
+	
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<context:property-placeholder location="classpath:properties/db.properties"/>
+	
+</beans:beans>
